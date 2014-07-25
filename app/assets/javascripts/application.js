@@ -21,12 +21,70 @@ $(function(){
 	var dispatcher = new WebSocketRails('localhost:3000/websocket');
 	var channel = dispatcher.subscribe('comments');
 
-	dispatcher.trigger('comments.send', null);
+	var canvas = document.getElementById( 'canvas' ).getContext( '2d' );
+	canvas.font = "30pt Arial";
 
-	var logins = [];
+	var comments = []
 
 	channel.bind('send_comment', function(comment) {
-	  console.log('successfully catch a comment : ' + comment);
+		if(comments.length == 0){
+			comments.push({ comment: comment, x:800, y:40 });
+		}else{
+			var y = 0;
+			while(true){
+				y += 40;
+				var hit = false;
+			  for(var i=0; i<comments.length; i++){
+			  	var right_x = comments[i].x + canvas.measureText(comments[i].comment).width;
+					if( y == comments[i].y && right_x >= 400){
+						hit = true;
+						break;
+					}
+				}
+				if(!hit){
+					comments.push({ comment: comment, x:800, y:y });
+					break;
+				}
+			}
+		}
+	});
+
+	setInterval(function(){
+			canvas.fillStyle = "white";
+			canvas.clearRect( 0, 0, 800, 800 );
+			canvas.fillStyle = 'black';
+			comments = $.map(comments, function(comment){
+				return comment.x + canvas.measureText(comment.comment).width > 0 ? comment : null;
+			});
+			for(var i=0; i<comments.length; i++){
+				var comment = comments[i];
+				canvas.fillText( comment.comment, comment.x, comment.y);
+				comment.x -= 4;
+			}
+	}, 20);
+
+	$(".good-btn").click(function(){
+
+		dispatcher.trigger('comments.send', 'おぉぉおぉぉぉ！！');
+
+	});
+
+	$(".bad-btn").click(function(){
+
+		dispatcher.trigger('comments.send', 'よくわからん。');
+
+	});
+
+	$(".wait-btn").click(function(){
+
+		dispatcher.trigger('comments.send', 'ちょい待って！');
+
+	});
+
+	$(".question-btn").click(function(){
+
+		dispatcher.trigger('comments.send', 'は？？？？');
+
 	});
 
 });

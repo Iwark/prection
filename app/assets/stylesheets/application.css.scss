@@ -13,3 +13,43 @@
  *= require_tree .
  *= require_self
  */
+html,body{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#canvas{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+@mixin action-btn{
+	position: absolute;
+	width: 50%;
+	height: 100px;
+} 
+
+.good-btn{
+	@include action-btn;
+	bottom: 100px;
+	left: 0px;
+}
+.bad-btn{
+	@include action-btn;
+	bottom: 100px;
+	right: 0px;
+}
+.wait-btn{
+	@include action-btn;
+	bottom: 0px;
+	left: 0px;
+}
+.question-btn{
+	@include action-btn;
+	bottom: 0px;
+	right: 0px;
+}
