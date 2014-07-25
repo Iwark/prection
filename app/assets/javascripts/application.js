@@ -64,7 +64,7 @@ $(function(){
 	}, 20);
 
 	$(".good-btn").click(function(){
-
+		alert("btn test");
 		dispatcher.trigger('comments.send', 'おぉぉおぉぉぉ！！');
 
 	});
