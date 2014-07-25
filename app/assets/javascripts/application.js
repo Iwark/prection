@@ -18,7 +18,7 @@
 //= require turbolinks
 
 $(function(){
-	var dispatcher = new WebSocketRails('localhost:3000/websocket');
+	var dispatcher = new WebSocketRails('prection.hacker-meetings.com/websocket');
 	var channel = dispatcher.subscribe('comments');
 
 	var canvas = document.getElementById( 'canvas' ).getContext( '2d' );
@@ -27,7 +27,6 @@ $(function(){
 	var comments = []
 
 	channel.bind('send_comment', function(comment) {
-		alert("うーん");
 		if(comments.length == 0){
 			comments.push({ comment: comment, x:800, y:40 });
 		}else{
