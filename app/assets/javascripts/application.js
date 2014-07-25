@@ -27,6 +27,7 @@ $(function(){
 	var comments = []
 
 	channel.bind('send_comment', function(comment) {
+		alert("うーん");
 		if(comments.length == 0){
 			comments.push({ comment: comment, x:800, y:40 });
 		}else{
@@ -64,7 +65,6 @@ $(function(){
 	}, 20);
 
 	$(".good-btn").click(function(){
-		alert("btn test");
 		dispatcher.trigger('comments.send', 'おぉぉおぉぉぉ！！');
 
 	});
