@@ -11,6 +11,22 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
 //= require_tree .
+//= require websocket_rails/main
+//= require turbolinks
+
+$(function(){
+	var dispatcher = new WebSocketRails('localhost:3000/websocket');
+	var channel = dispatcher.subscribe('comments');
+
+	dispatcher.trigger('comments.send', null);
+
+	var logins = [];
+
+	channel.bind('send_comment', function(comment) {
+	  console.log('successfully catch a comment : ' + comment);
+	});
+
+});
